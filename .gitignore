@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+env/
+.env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data files (large, not tracked)
+data/raw/
+data/processed/
+*.nii
+*.nii.gz
+*.1D
+
+# Results (regenerable)
+results/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Extracted text (temp)
+*_extracted.txt
