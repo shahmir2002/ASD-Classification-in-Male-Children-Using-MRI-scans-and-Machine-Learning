@@ -39,8 +39,8 @@ This project evaluates **7 machine learning classifiers** across **7 brain atlas
 
 ```bash
 # Clone the repository
-git clone https://github.com/<your-username>/STRP-2.git
-cd STRP-2
+git clone https://github.com/shahmir2002/ASD-Classification-in-Male-Children-Using-MRI-scans-and-Machine-Learning.git
+cd ASD-Classification-in-Male-Children-Using-MRI-scans-and-Machine-Learning
 
 # Create virtual environment (recommended)
 python -m venv venv
@@ -134,14 +134,64 @@ results/
 
 ## Functional Features (21 per ROI)
 
-| Category | Features |
-|---|---|
-| **Statistical** | mean, std, median, skewness, kurtosis |
-| **Temporal** | slope, zero-crossing rate, autocorrelation (lag-1), time-to-peak, time-above-threshold |
-| **Spectral** | dominant frequency, average PSD, band power (slow-5, slow-4, slow-3) |
-| **Neuroimaging** | ALFF, fALFF |
-| **Nonlinear** | Lyapunov exponent |
-| **Additional** | IQR, range, RMS |
+Each ROI's BOLD time-series is transformed into 21 features:
+
+| # | Feature | Category | Description |
+|---|---|---|---|
+| 1 | **Mean** | Statistical | Average signal amplitude |
+| 2 | **Std** | Statistical | Standard deviation of signal |
+| 3 | **Median** | Statistical | Median signal value |
+| 4 | **Skewness** | Statistical | Asymmetry of distribution |
+| 5 | **Kurtosis** | Statistical | Tailedness of distribution |
+| 6 | **Slope** | Temporal | Linear trend via least-squares fit |
+| 7 | **Zero-Crossing Rate** | Temporal | Rate of signal sign changes around the mean |
+| 8 | **Autocorrelation (lag-1)** | Temporal | Self-similarity at one time step |
+| 9 | **Time-to-Peak** | Temporal | Fractional index of maximum amplitude |
+| 10 | **Time-Above-Threshold** | Temporal | Fraction of time signal exceeds the mean |
+| 11 | **Dominant Frequency** | Spectral | Frequency with highest power (Welch's PSD) |
+| 12 | **Average PSD** | Spectral | Mean power spectral density |
+| 13 | **Band Power (slow-5)** | Spectral | Power in 0.010–0.027 Hz band |
+| 14 | **Band Power (slow-4)** | Spectral | Power in 0.027–0.073 Hz band |
+| 15 | **Band Power (slow-3)** | Spectral | Power in 0.073–0.198 Hz band |
+| 16 | **ALFF** | Neuroimaging | Amplitude of Low-Frequency Fluctuations (0.01–0.08 Hz) |
+| 17 | **fALFF** | Neuroimaging | Fractional ALFF (ALFF / total amplitude) |
+| 18 | **Lyapunov Exponent** | Nonlinear | Largest Lyapunov exponent — signal complexity measure |
+| 19 | **IQR** | Additional | Interquartile range (75th – 25th percentile) |
+| 20 | **Range** | Additional | Peak-to-peak amplitude |
+| 21 | **RMS** | Additional | Root mean square of the signal |
+
+## Results
+
+### Average Structural Accuracies (%)
+
+| Atlas | MLP | SVM | RF | LR | QDA | GBC | AdaBoost |
+|---|---|---|---|---|---|---|---|
+| AAL | 53.28 | 58.37 | 59.18 | 58.35 | 52.93 | 59.58 | 60.87 |
+| CC200 | 53.33 | 59.66 | 55.80 | 57.55 | 52.93 | 58.80 | 58.37 |
+| CC400 | 56.29 | 58.80 | 57.90 | 60.09 | 53.79 | 55.38 | 60.40 |
+| Dosenbach | 54.26 | 58.90 | 55.04 | 55.53 | 56.00 | 55.92 | 51.27 |
+| EZ | 53.37 | 58.44 | 58.28 | 58.33 | 52.10 | 57.48 | 55.40 |
+| HO | 54.58 | 57.54 | 56.59 | 56.68 | 52.93 | 58.79 | 61.32 |
+| TT | 54.95 | 56.68 | 62.54 | 51.25 | 58.33 | 58.77 | 59.60 |
+
+### Average Functional Accuracies (%)
+
+| Atlas | MLP | SVM | RF | LR | QDA | GBC | AdaBoost |
+|---|---|---|---|---|---|---|---|
+| AAL | 48.25 | 51.35 | 54.68 | 47.16 | 49.24 | 51.49 | 50.38 |
+| CC200 | 51.05 | 52.98 | 53.63 | 56.87 | 45.18 | 48.45 | 45.70 |
+| CC400 | 51.05 | 52.98 | 51.49 | 56.87 | 49.42 | 53.16 | 46.14 |
+| Dosenbach | 56.35 | 52.57 | 54.71 | 52.63 | 47.51 | 46.35 | 51.49 |
+| EZ | 50.32 | 53.63 | 54.71 | 48.16 | 44.65 | 53.22 | 53.13 |
+| HO | 48.25 | 51.35 | 55.15 | 46.64 | 47.63 | 50.94 | 57.39 |
+| TT | 55.20 | 46.90 | 50.47 | 56.43 | 49.94 | 42.31 | 48.65 |
+
+### Best Model Performance
+
+| Modality | Best Model | Accuracy | F1-Score | Recall |
+|---|---|---|---|---|
+| Structural | SVM | 0.71 | 0.84 | 0.83 |
+| Functional | Random Forest | 0.75 | 0.76 | 0.75 |
 
 ## Methodology
 
