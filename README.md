@@ -193,6 +193,14 @@ Each ROI's BOLD time-series is transformed into 21 features:
 | Structural | SVM | 0.71 | 0.84 | 0.83 |
 | Functional | Random Forest | 0.75 | 0.76 | 0.75 |
 
+### Analysis
+
+This study highlights the significant variation in model performance based on feature extraction and feature reduction technique choices, even when simply changing brain atlases. The results demonstrate that atlas selection is not a trivial decision — different parcellation strategies interact meaningfully with classifier families, influencing diagnostic accuracy.
+
+On the structural side, the cortical thickness measures used in this study were computed using surface-based morphometry (SBM) via the ANTs pipeline. While SBM has been a standard approach, the modest accuracies obtained (53–63%) suggest that these methods may be outdated for large, open-access datasets like ABIDE. Newer, more reliable segmentation-based techniques — such as deep learning-driven cortical parcellation and voxel-wise analysis with advanced normalization — should be explored to improve the quality and discriminative power of structural features.
+
+For functional data, the results (48–57%) clearly indicate that simply extracting summary signal features (statistical, spectral, and temporal descriptors) from BOLD time-series does not provide sufficient discriminative information for reliable ASD classification. The lossy summarization of rich temporal dynamics into static feature vectors obscures the time-varying patterns that may be most diagnostic. Future work should leverage temporal models — such as LSTMs, 1D-CNNs, or dynamic functional connectivity approaches — that can directly learn from the raw time-series data rather than relying on hand-crafted summary statistics.
+
 ## Methodology
 
 1. **Data Loading** — Structural cortical thickness and functional BOLD time-series from ABIDE preprocessed (CPAC pipeline, no filter, no GSR)
